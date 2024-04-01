@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './style.css';
+import '../index.css';
 import BingoCard from './BingoCard';
 
 const BingoGamePage = () => {
@@ -62,50 +63,45 @@ const BingoGamePage = () => {
 
   return (
     <div className="wrapper">
-      <div className="container">
-        <table className="bingo-table">
-          <tbody>
-            {selectedCards.map((cardIndex) => (
-              bingoCardsProp[cardIndex].map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((number, colIndex) => (
-                    <td
-                      key={colIndex}
-                      className={`bingo-cell ${number ? 'selected' : ''}`}
-                      onClick={() => handleCellClick(cardIndex, rowIndex, colIndex)}
-                    >
-                      {number}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            ))}
-          </tbody>
-        </table>
-        <div className="letter-div">
-          <table className="letter-table">
-            <tbody>
-              <tr>
-                <td className="letters-bingo">{lettersShown[0] ? 'B' : ''}</td>
-                <td className="letters-bingo">{lettersShown[1] ? 'I' : ''}</td>
-                <td className="letters-bingo">{lettersShown[2] ? 'N' : ''}</td>
-                <td className="letters-bingo">{lettersShown[3] ? 'G' : ''}</td>
-                <td className="letters-bingo">{lettersShown[4] ? 'O' : ''}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {/* Render selected Bingo cards only */}
-      <div className="selected-bingo-cards">
-        {selectedCards.map((index) => (
-          <div key={index} className="bingo-card">
-            <BingoCard numbers={bingoCardsState[index]} />
+      {selectedCards.map((cardIndex) => (
+        <div key={cardIndex} className="container">
+          <div className="bingo-card">
+            <table className="bingo-card">
+              <tbody>
+                {bingoCardsProp[cardIndex].map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {row.map((number, colIndex) => (
+                      <td
+                        key={colIndex}
+                        className={`bingo-cell ${number ? 'selected' : ''}`}
+                        onClick={() => handleCellClick(cardIndex, rowIndex, colIndex)}
+                      >
+                        {number}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))}
-      </div>
+          <div className="letter-div">
+            <table className="letter-table">
+              <tbody>
+                <tr>
+                  <td className="letters-bingo">{lettersShown[0] ? 'B' : ''}</td>
+                  <td className="letters-bingo">{lettersShown[1] ? 'I' : ''}</td>
+                  <td className="letters-bingo">{lettersShown[2] ? 'N' : ''}</td>
+                  <td className="letters-bingo">{lettersShown[3] ? 'G' : ''}</td>
+                  <td className="letters-bingo">{lettersShown[4] ? 'O' : ''}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
     </div>
   );
+  
 };
 
 export default BingoGamePage;

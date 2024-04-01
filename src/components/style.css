@@ -15,7 +15,7 @@ body:focus {
 
 
 /* Styling for Bingo table */
-#tblBingo {
+.tblBingo {
     border-collapse: collapse;
     height: 25rem;
     width: 25rem;
@@ -26,7 +26,7 @@ body:focus {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
 }
-#tblBingo2 {
+.tblBingo2 {
     border-collapse: collapse;
     height: 25rem;
     width: 25rem;
@@ -37,7 +37,7 @@ body:focus {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
 }
-#tblBingo3 {
+.tblBingo3 {
     border-collapse: collapse;
     height: 25rem;
     width: 25rem;
@@ -49,7 +49,7 @@ body:focus {
     border-radius: 20px;
 }
 
-#tblBingo td {
+.tblBingo td {
     padding: 0.5rem;
 }
 
@@ -99,10 +99,12 @@ body:focus {
 }
 
 .container {
-    width: calc(33.33% - 20px); /* Set each container to one-third of the viewport width with margin between them */
-    margin: 10px;
-    box-sizing: border-box;
-}
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Align items at the start of the container */
+    margin-bottom: 20px; /* Add margin between containers */
+  }
+  
 
 .letter-div {
     padding: 10px 0; /* Add padding to the letter divs */
