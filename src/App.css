@@ -1,0 +1,61 @@
+/* App.css */
+.app-container {
+  text-align: center;
+  padding: 0% 10% 0% 10%; /* Adjust padding as needed */
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0; /* Remove padding on mobile devices */
+  }
+}
+
+.bingo-cards {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.card {
+  justify-content: center;
+  width: 70%;
+  margin: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+
+.bingo-card {
+  margin: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid blue;
+}
+
+.bingo-card-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.done-button, .reset-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.done-button:hover, .reset-button:hover {
+  background-color: #0056b3;
+}
