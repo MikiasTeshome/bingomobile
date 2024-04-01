@@ -35,7 +35,13 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
-
+@media (max-width: 768px) {
+  /* Decrease the size of individual cards for mobile devices */
+  .bingo-card .bingo-card-item {
+    width: 20%; /* Adjust as needed */
+    /* Add any other styles for smaller cards on mobile */
+  }
+}
 .selected {
   border: 2px solid blue;
 }
