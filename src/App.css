@@ -45,15 +45,18 @@
   /* Decrease the size of individual cards for mobile devices */
   .bingo-card{
     
-    margin: 5px;
-  padding: 5px;; /* Adjust as needed */
+    margin: 7px;
+  padding: 7px;; /* Adjust as needed */
     /* Add any other styles for smaller cards on mobile */
   }
 }
 .selected {
   border: 2px solid blue;
 }
-
+.p{
+  padding: -10%;
+  margin: -10%;
+}
 .bingo-card-selection {
   display: flex;
   flex-wrap: wrap;

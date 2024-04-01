@@ -1,36 +1,109 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import './style.css';
+import BingoCard from './BingoCard';
 
 const BingoGamePage = () => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const selectedCards = searchParams.get('selectedCards');
+  const bingoCardsProp = location.state.bingoCards;
+  const selectedCards = location.state.selectedCards;
+  const [bingoCardsState, setBingoCards] = useState([]);
 
-  const [selectedCardIndices, setSelectedCardIndices] = useState([]);
+  const [winningPositions] = useState([
+    [0, 1, 2, 3, 4],
+    [5, 6, 7, 8, 9],
+    [10, 11, 12, 13, 14],
+    [15, 16, 17, 18, 19],
+    [20, 21, 22, 23, 24],
+    [0, 5, 10, 15, 20],
+    [1, 6, 11, 16, 21],
+    [2, 7, 12, 17, 22],
+    [3, 8, 13, 18, 23],
+    [4, 9, 14, 19, 24],
+    [0, 6, 12, 18, 24],
+    [20, 16, 12, 8, 4]
+  ]);
+
+  const [lettersShown, setLettersShown] = useState(Array(25).fill(false));
 
   useEffect(() => {
-    if (selectedCards) {
-      const indices = selectedCards.split(',').map(index => parseInt(index));
-      setSelectedCardIndices(indices);
-    } else {
-      console.error('No selected cards found in URL parameters');
-    }
+    setBingoCards(bingoCardsProp.map(card => [...card]));
+  }, [bingoCardsProp]);
+
+  useEffect(() => {
+    setLettersShown(Array(25).fill(false)); // Reset selected letters when selectedCards change
   }, [selectedCards]);
 
+  const handleCellClick = (cardIndex, rowIndex, colIndex) => {
+    setBingoCards(prevBingoCards => {
+      const newBingoCards = [...prevBingoCards];
+      newBingoCards[cardIndex][rowIndex][colIndex] = !newBingoCards[cardIndex][rowIndex][colIndex];
+      return newBingoCards;
+    });
+  };
+
+  const matchWin = (cells) => {
+    return winningPositions.some(combination => {
+      let ite = 0;
+      combination.forEach(index => {
+        if (cells[index].classList.contains("strickout")) ite++;
+      });
+
+      if (ite === 5) {
+        let indexWin = winningPositions.indexOf(combination);
+        winningPositions.splice(indexWin, 1);
+      }
+
+      return combination.every(index => {
+        return cells[index].classList.contains("strickout");
+      });
+    });
+  };
+
   return (
-    <div className="bingo-game-container">
-      <h1>Bingo Game</h1>
-      <table>
-        <tbody>
-          {selectedCardIndices.map((index, cardIndex) => (
-            <tr key={cardIndex}>
-              {Array.from({ length: 5 }).map((_, rowIndex) => (
-                <td key={rowIndex} className="bingo-number">{index * 5 + rowIndex + 1}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="wrapper">
+      <div className="container">
+        <table className="bingo-table">
+          <tbody>
+            {selectedCards.map((cardIndex) => (
+              bingoCardsProp[cardIndex].map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {row.map((number, colIndex) => (
+                    <td
+                      key={colIndex}
+                      className={`bingo-cell ${number ? 'selected' : ''}`}
+                      onClick={() => handleCellClick(cardIndex, rowIndex, colIndex)}
+                    >
+                      {number}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ))}
+          </tbody>
+        </table>
+        <div className="letter-div">
+          <table className="letter-table">
+            <tbody>
+              <tr>
+                <td className="letters-bingo">{lettersShown[0] ? 'B' : ''}</td>
+                <td className="letters-bingo">{lettersShown[1] ? 'I' : ''}</td>
+                <td className="letters-bingo">{lettersShown[2] ? 'N' : ''}</td>
+                <td className="letters-bingo">{lettersShown[3] ? 'G' : ''}</td>
+                <td className="letters-bingo">{lettersShown[4] ? 'O' : ''}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {/* Render selected Bingo cards only */}
+      <div className="selected-bingo-cards">
+        {selectedCards.map((index) => (
+          <div key={index} className="bingo-card">
+            <BingoCard numbers={bingoCardsState[index]} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
