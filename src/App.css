@@ -9,11 +9,16 @@
     padding: 0; /* Remove padding on mobile devices */
   }
 }
+.bingo-card-selection{
+  width: 100%;
+}
 
 .bingo-cards {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+   width: 30%;
+
 }
 .card {
   justify-content: center;
@@ -28,6 +33,7 @@
 
 
 .bingo-card {
+
   margin: 10px;
   padding: 10px;
   background-color: #f0f0f0;
@@ -37,8 +43,10 @@
 }
 @media (max-width: 768px) {
   /* Decrease the size of individual cards for mobile devices */
-  .bingo-card .bingo-card-item {
-    width: 20%; /* Adjust as needed */
+  .bingo-card{
+    
+    margin: 5px;
+  padding: 5px;; /* Adjust as needed */
     /* Add any other styles for smaller cards on mobile */
   }
 }
