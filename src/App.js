@@ -116,7 +116,7 @@ const App = () => {
       <div className="bingo-card-selection">
         {bingoCards.map((card, index) => (
           <div key={index} className={`bingo-card ${selectedCards.includes(index) ? 'selected' : ''}`} onClick={() => handleCardSelect(index)}>
-            <p>Card Number {index + 1} </p><BingoCard numbers={card} />
+            <p>Cartela Number {index + 1} </p><BingoCard numbers={card} />
           </div>
         ))}
       </div>

@@ -66,6 +66,7 @@ const BingoGamePage = () => {
       {selectedCards.map((cardIndex) => (
         <div key={cardIndex} className="container">
           <div className="bingo-card">
+          <p style={{textAlign: "center"}}>B      I      N      G     O</p>
             <table className="bingo-card">
               <tbody>
                 {bingoCardsProp[cardIndex].map((row, rowIndex) => (
