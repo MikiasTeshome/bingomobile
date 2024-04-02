@@ -26,6 +26,28 @@ const BingoGamePage = () => {
   ]);
 
   const [lettersShown, setLettersShown] = useState(Array(25).fill(false));
+  useEffect(() => {
+    const cells = document.querySelectorAll(".main-table-cell");
+    let winningIterator = 0;
+
+    cells.forEach(cell => {
+      cell.addEventListener("click", () => {
+        cell.classList.add("strickout");
+
+        if (matchWin(cells)) {
+          alert('B I N G O');
+          location.reload();
+        }
+      });
+    });
+
+    return () => {
+      // Clean up event listeners
+      cells.forEach(cell => {
+        cell.removeEventListener("click");
+      });
+    };
+  }, []);
 
   useEffect(() => {
     setBingoCards(bingoCardsProp.map(card => [...card]));
@@ -67,22 +89,20 @@ const BingoGamePage = () => {
         <div key={cardIndex} className="container">
           <div className="bingo-card">
           <p style={{textAlign: "center"}}>B      I      N      G     O</p>
-            <table className="bingo-card">
+            <table className="tblBingo">
               <tbody>
                 {bingoCardsProp[cardIndex].map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((number, colIndex) => (
-                      <td
-                        key={colIndex}
-                        className={`bingo-cell ${number ? 'selected' : ''}`}
-                        onClick={() => handleCellClick(cardIndex, rowIndex, colIndex)}
-                      >
-                        {number}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
+                     <tr key={rowIndex}>
+                     {row.map((number, colIndex) => (
+                       <td key={colIndex} className="main-table-cell">
+                         <div className="cell-format" onClick={() => {}}>
+                           {number}
+                         </div>
+                       </td>
+                     ))}
+                   </tr>
+                 ))}
+               </tbody>
             </table>
           </div>
           <div className="letter-div">
