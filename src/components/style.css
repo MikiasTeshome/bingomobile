@@ -6,7 +6,9 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
 }
-
+tbody {
+    width: 50%;
+}
 /* Remove outline when body is focused */
 body:focus {
     outline: none;
@@ -17,8 +19,8 @@ body:focus {
 /* Styling for Bingo table */
 .tblBingo {
     border-collapse: collapse;
-    height: 25rem;
-    width: 25rem;
+    height: 20rem;
+    width: 20rem;
     text-align: center;
     font-size: 22pt;
     cursor: pointer;
