@@ -13,108 +13,112 @@ const BingoGamePage = () => {
   const [winningPositions] = useState([
     [0, 1, 2, 3, 4],
     [5, 6, 7, 8, 9],
-    [10, 11, 12, 13, 14],
+    [10, 11, 13, 14],
     [15, 16, 17, 18, 19],
     [20, 21, 22, 23, 24],
     [0, 5, 10, 15, 20],
     [1, 6, 11, 16, 21],
-    [2, 7, 12, 17, 22],
+    [2, 7,  17, 22],
     [3, 8, 13, 18, 23],
     [4, 9, 14, 19, 24],
-    [0, 6, 12, 18, 24],
-    [20, 16, 12, 8, 4]
+    [0, 6, 18, 24],
+    [20, 16,  8, 4]
   ]);
 
-  const [lettersShown, setLettersShown] = useState(Array(25).fill(false));
   useEffect(() => {
-    const cells = document.querySelectorAll(".main-table-cell");
-    let winningIterator = 0;
-
-    cells.forEach(cell => {
-      cell.addEventListener("click", () => {
-        cell.classList.add("strickout");
-
-        if (matchWin(cells)) {
-          alert('B I N G O');
-          location.reload();
-        }
-      });
-    });
-
-    return () => {
-      // Clean up event listeners
-      cells.forEach(cell => {
-        cell.removeEventListener("click");
-      });
-    };
-  }, []);
-
-  useEffect(() => {
+    // Reset selected letters when selectedCards change
     setBingoCards(bingoCardsProp.map(card => [...card]));
-  }, [bingoCardsProp]);
+  }, [selectedCards, bingoCardsProp]);
 
   useEffect(() => {
-    setLettersShown(Array(25).fill(false)); // Reset selected letters when selectedCards change
-  }, [selectedCards]);
+    selectedCards.forEach(cardIndex => {
+      const cells = document.querySelectorAll(`.bingo-card-${cardIndex} .main-table-cell`);
 
-  const handleCellClick = (cardIndex, rowIndex, colIndex) => {
-    setBingoCards(prevBingoCards => {
-      const newBingoCards = [...prevBingoCards];
-      newBingoCards[cardIndex][rowIndex][colIndex] = !newBingoCards[cardIndex][rowIndex][colIndex];
-      return newBingoCards;
+      cells.forEach(cell => {
+        cell.addEventListener("click", () => handleCellClick(cardIndex, cell));
+      });
+
+      return () => {
+        // Clean up event listeners when component unmounts or selectedCards change
+        cells.forEach(cell => {
+          cell.removeEventListener("click", () => handleCellClick(cardIndex, cell));
+        });
+      };
     });
-  };
+  }, [selectedCards, bingoCardsProp]);
 
-  const matchWin = (cells) => {
+  const matchWin = (cardIndex) => {
+    const cells = document.querySelectorAll(`.bingo-card-${cardIndex} .main-table-cell`);
     return winningPositions.some(combination => {
       let ite = 0;
       combination.forEach(index => {
         if (cells[index].classList.contains("strickout")) ite++;
       });
-
+  
       if (ite === 5) {
         let indexWin = winningPositions.indexOf(combination);
         winningPositions.splice(indexWin, 1);
       }
-
-      return combination.every(index => {
-        return cells[index].classList.contains("strickout");
-      });
+  
+      if (combination.every(index => cells[index].classList.contains("strickout"))) {
+        return true;
+      }
+      return false;
     });
   };
-
+  
+  useEffect(() => {
+    selectedCards.forEach(cardIndex => {
+      const cells = document.querySelectorAll(`.bingo-card-${cardIndex} .main-table-cell`);
+  
+      cells.forEach(cell => {
+        cell.addEventListener("click", () => handleCellClick(cardIndex, cell));
+      });
+  
+      return () => {
+        // Clean up event listeners when component unmounts or selectedCards change
+        cells.forEach(cell => {
+          cell.removeEventListener("click", () => handleCellClick(cardIndex, cell));
+        });
+      };
+    });
+  }, [selectedCards, bingoCardsProp]);
+  
+  const handleCellClick = (cardIndex, cell) => {
+    cell.classList.add("strickout");
+  
+    if (matchWin(cardIndex)) {
+      const bingoContainer = document.querySelector('.bingo-container');
+      if (bingoContainer) {
+        bingoContainer.innerHTML = 'B I N G O';
+      } else {
+        console.error('Bingo container not found');
+      }
+    }
+  };
+  
   return (
     <div className="wrapper">
+      <div className="bingo-container">
+        {/* This is where the Bingo message will be displayed */}
+      </div>
       {selectedCards.map((cardIndex) => (
-        <div key={cardIndex} className="container">
+        <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
           <div className="bingo-card">
-          <p style={{textAlign: "center"}}>B      I      N      G     O</p>
+            <p style={{textAlign: "center"}}>B      I      N      G     O</p>
             <table className="tblBingo">
               <tbody>
                 {bingoCardsProp[cardIndex].map((row, rowIndex) => (
-                     <tr key={rowIndex}>
-                     {row.map((number, colIndex) => (
-                       <td key={colIndex} className="main-table-cell">
-                         <div className="cell-format" onClick={() => {}}>
-                           {number}
-                         </div>
-                       </td>
-                     ))}
-                   </tr>
-                 ))}
-               </tbody>
-            </table>
-          </div>
-          <div className="letter-div">
-            <table className="letter-table">
-              <tbody>
-                <tr>
-                  <td className="letters-bingo">{lettersShown[0] ? 'B' : ''}</td>
-                  <td className="letters-bingo">{lettersShown[1] ? 'I' : ''}</td>
-                  <td className="letters-bingo">{lettersShown[2] ? 'N' : ''}</td>
-                  <td className="letters-bingo">{lettersShown[3] ? 'G' : ''}</td>
-                  <td className="letters-bingo">{lettersShown[4] ? 'O' : ''}</td>
-                </tr>
+                  <tr key={rowIndex}>
+                    {row.map((number, colIndex) => (
+                      <td key={colIndex} className="main-table-cell">
+                        <div className="cell-format">
+                          {number}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -122,7 +126,6 @@ const BingoGamePage = () => {
       ))}
     </div>
   );
-  
 };
 
 export default BingoGamePage;
