@@ -14,7 +14,9 @@ body:focus {
     outline: none;
 }
 
-
+.bingo-container{
+    padding: 0%;
+}
 
 /* Styling for Bingo table */
 .tblBingo {

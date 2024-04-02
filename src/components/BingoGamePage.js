@@ -8,9 +8,10 @@ const BingoGamePage = () => {
   const location = useLocation();
   const bingoCardsProp = location.state.bingoCards;
   const selectedCards = location.state.selectedCards;
+  const selectedCardName = location.state.selectedCardName;
   const [bingoCardsState, setBingoCards] = useState([]);
   const [isBingo, setIsBingo] = useState(false);
-  const [winningCardIndex, setWinningCardIndex] = useState(null); // Initialize as null
+  const [winningCardIndex, setWinningCardIndex] = useState(null);
 
   const winningPositions = [
     [0, 1, 2, 3, 4],
@@ -20,11 +21,11 @@ const BingoGamePage = () => {
     [20, 21, 22, 23, 24],
     [0, 5, 10, 15, 20],
     [1, 6, 11, 16, 21],
-    [2, 7,  17, 22],
+    [2, 7, 17, 22],
     [3, 8, 13, 18, 23],
     [4, 9, 14, 19, 24],
     [0, 6, 18, 24],
-    [20, 16,  8, 4]
+    [20, 16, 8, 4]
   ];
 
   useEffect(() => {
@@ -67,25 +68,26 @@ const BingoGamePage = () => {
     cell.classList.add("strickout");
     if (matchWin(cardIndex)) {
       setIsBingo(true);
-      setWinningCardIndex(cardIndex); // Update winningCardIndex
+      setWinningCardIndex(cardIndex);
     }
   };
 
   return (
     <div className="wrapper">
-      {selectedCards.map((cardIndex) => (
+      {selectedCards.map((cardIndex, index) => (
+        // Check if the cardIndex matches one of the selected cards
+        (cardIndex === 6 || cardIndex === 3) && 
         <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
-        <div className="bingo-card">
-  <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold', letterSpacing: '0.5em' }}>
-    <span style={{ color: 'black' }}>B</span>
-    <span style={{ color: 'black' }}>I</span>
-    <span style={{ color: 'black' }}>N</span>
-    <span style={{ color: 'black' }}>G</span>
-    <span style={{ color: 'black' }}>O</span>
-  </p>
-
-
-            
+          <div className="bingo-card">
+            <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
+              <span style={{ color: 'black' }}>B</span>
+              <span style={{ color: 'black' }}>I</span>
+              <span style={{ color: 'black' }}>N</span>
+              <span style={{ color: 'black' }}>G</span>
+              <span style={{ color: 'black' }}>O</span>
+            </p>
+           
+            <h2>{selectedCardName}</h2> {/* Display selected card name */}
             <table className="tblBingo">
               <tbody>
                 {bingoCardsProp[cardIndex].map((row, rowIndex) => (
@@ -102,23 +104,21 @@ const BingoGamePage = () => {
               </tbody>
             </table>
             <div className="bingo-container">
-  {isBingo && cardIndex === winningCardIndex && (
-    <p style={{ textAlign: "center", fontSize: "36px" }}>
-      <span style={{ color: "red" }}>B</span>
-      <span style={{ color: "orange" }}>I</span>
-      <span style={{ color: "blue" }}>N</span>
-      <span style={{ color: "orange" }}>G</span>
-      <span style={{ color: "purple" }}>O</span>
-    </p>
-  )}
-</div>
-
+              {isBingo && cardIndex === winningCardIndex && (
+                <p style={{ textAlign: "center", fontSize: "36px" }}>
+                  <span style={{ color: "red" }}>B</span>
+                  <span style={{ color: "orange" }}>I</span>
+                  <span style={{ color: "blue" }}>N</span>
+                  <span style={{ color: "orange" }}>G</span>
+                  <span style={{ color: "purple" }}>O</span>
+                </p>
+              )}
+            </div>
           </div>
         </div>
       ))}
     </div>
   );
-  
 };
 
 export default BingoGamePage;

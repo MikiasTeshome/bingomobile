@@ -1,12 +1,13 @@
-// App.jsx
 import React, { useState } from 'react';
-import { useNavigate, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BingoCard from './components/BingoCard';
-import BingoGamePage from './components/BingoGamePage';
 import './App.css';
+
 const App = () => {
   const navigate = useNavigate();
   const [selectedCards, setSelectedCards] = useState([]);
+  const [selectedCardNumber, setSelectedCardNumber] = useState(null);
+  const [selectedCardName, setSelectedCardName] = useState(null); // Add selectedCardName state
 
   const bingoCards = [
     [
@@ -87,10 +88,11 @@ const App = () => {
       [16, 17, 18, 19, 20],
       [21, 22, 23, 24, 25]
     ],
-    // Add more predefined cards here...
+    // Your bingo card arrays here...
   ];
 
   const handleCardSelect = (index) => {
+    setSelectedCardNumber(index + 1); // Increment index by 1
     setSelectedCards(prevSelectedCards => {
       if (prevSelectedCards.includes(index)) {
         return prevSelectedCards.filter(cardIndex => cardIndex !== index);
@@ -106,7 +108,7 @@ const App = () => {
     } else if (selectedCards.length > 4) {
       alert("You can only select up to 4 cards.");
     } else {
-      navigate('/game', { state: { bingoCards, selectedCards } });
+      navigate('/game', { state: { bingoCards, selectedCards, selectedCardNumber } });
     }
   };
 
@@ -116,7 +118,7 @@ const App = () => {
       <div className="bingo-card-selection">
         {bingoCards.map((card, index) => (
           <div key={index} className={`bingo-card ${selectedCards.includes(index) ? 'selected' : ''}`} onClick={() => handleCardSelect(index)}>
-            <p>Cartela Number {index + 1} </p><BingoCard numbers={card} />
+            <p>Cartela Number {index + 1}</p><BingoCard numbers={card} />
           </div>
         ))}
       </div>
