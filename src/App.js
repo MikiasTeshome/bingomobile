@@ -114,18 +114,21 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1>Select up to 4 Bingo Cards:</h1>
+<h1 className="bingo-title">Select up to 4 <span>B</span><span>I</span><span>N</span><span>G</span><span>O</span> Cards And Click Start to play:</h1>
       <div className="bingo-card-selection">
         {bingoCards.map((card, index) => (
           <div key={index} className={`bingo-card ${selectedCards.includes(index) ? 'selected' : ''}`} onClick={() => handleCardSelect(index)}>
             <p>Cartela Number {index + 1}</p><BingoCard numbers={card} />
           </div>
         ))}
-      </div>
-      {selectedCards.length > 0 && (
-        <button className="done-button" onClick={handleDone}>Done</button>
-      )}
-    </div>
+     </div>
+  {selectedCards.length > 0 && (
+    <button className="start-button" onClick={handleDone}>
+      <span>S</span><span>T</span><span>A</span><span>R</span><span>T</span> 
+    </button>
+  )}
+</div>
+
   );
 };
 

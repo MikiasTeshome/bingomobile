@@ -54,7 +54,9 @@
   .bingo-card{
     
     margin: 3px;
-  padding: 4px;; /* Adjust as needed */
+  padding: 4px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;; /* Adjust as needed */
     /* Add any other styles for smaller cards on mobile */
   }
 }
@@ -83,4 +85,35 @@
 
 .done-button:hover, .reset-button:hover {
   background-color: #0056b3;
+}
+.bingo-title {
+  color: rgba(28, 22, 43, 0.814); /* B color */
+}
+
+.bingo-title span:nth-child(2) {
+  color: orange; /* I color */
+}
+
+.bingo-title span:nth-child(3) {
+  color: blue; /* N color */
+}
+
+.bingo-title span:nth-child(4) {
+  color: green; /* G color */
+}
+
+.bingo-title span:nth-child(5) {
+  color: purple; /* O color */
+}
+.start-button {
+  background-color: rgb(47, 18, 175); /* B color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  background-color: orange; /* I color */
 }
