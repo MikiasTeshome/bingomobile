@@ -84,8 +84,14 @@ const BingoGamePage = () => {
   };
 
   return (
+    <>
+    <div>
+    <h1 className="bingo-title"> <span>GO</span><span>o</span><span>D </span><span>LU</span><span>CK</span> </h1>
+    </div>
     <div className="wrapper">
+     
       {selectedCards.map((cardIndex, index) => (
+        
         <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
           <div className="bingo-card">
             <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
@@ -127,6 +133,7 @@ const BingoGamePage = () => {
         </div>
       ))}
     </div>
+    </>
   );
 };
 
