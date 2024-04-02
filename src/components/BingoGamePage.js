@@ -9,8 +9,10 @@ const BingoGamePage = () => {
   const bingoCardsProp = location.state.bingoCards;
   const selectedCards = location.state.selectedCards;
   const [bingoCardsState, setBingoCards] = useState([]);
+  const [isBingo, setIsBingo] = useState(false);
+  const [winningCardIndex, setWinningCardIndex] = useState(null); // Initialize as null
 
-  const [winningPositions] = useState([
+  const winningPositions = [
     [0, 1, 2, 3, 4],
     [5, 6, 7, 8, 9],
     [10, 11, 13, 14],
@@ -23,23 +25,19 @@ const BingoGamePage = () => {
     [4, 9, 14, 19, 24],
     [0, 6, 18, 24],
     [20, 16,  8, 4]
-  ]);
+  ];
 
   useEffect(() => {
-    // Reset selected letters when selectedCards change
     setBingoCards(bingoCardsProp.map(card => [...card]));
   }, [selectedCards, bingoCardsProp]);
 
   useEffect(() => {
     selectedCards.forEach(cardIndex => {
       const cells = document.querySelectorAll(`.bingo-card-${cardIndex} .main-table-cell`);
-
       cells.forEach(cell => {
         cell.addEventListener("click", () => handleCellClick(cardIndex, cell));
       });
-
       return () => {
-        // Clean up event listeners when component unmounts or selectedCards change
         cells.forEach(cell => {
           cell.removeEventListener("click", () => handleCellClick(cardIndex, cell));
         });
@@ -54,58 +52,40 @@ const BingoGamePage = () => {
       combination.forEach(index => {
         if (cells[index].classList.contains("strickout")) ite++;
       });
-  
       if (ite === 5) {
         let indexWin = winningPositions.indexOf(combination);
         winningPositions.splice(indexWin, 1);
       }
-  
       if (combination.every(index => cells[index].classList.contains("strickout"))) {
         return true;
       }
       return false;
     });
   };
-  
-  useEffect(() => {
-    selectedCards.forEach(cardIndex => {
-      const cells = document.querySelectorAll(`.bingo-card-${cardIndex} .main-table-cell`);
-  
-      cells.forEach(cell => {
-        cell.addEventListener("click", () => handleCellClick(cardIndex, cell));
-      });
-  
-      return () => {
-        // Clean up event listeners when component unmounts or selectedCards change
-        cells.forEach(cell => {
-          cell.removeEventListener("click", () => handleCellClick(cardIndex, cell));
-        });
-      };
-    });
-  }, [selectedCards, bingoCardsProp]);
-  
+
   const handleCellClick = (cardIndex, cell) => {
     cell.classList.add("strickout");
-  
     if (matchWin(cardIndex)) {
-      const bingoContainer = document.querySelector('.bingo-container');
-      if (bingoContainer) {
-        bingoContainer.innerHTML = 'B I N G O';
-      } else {
-        console.error('Bingo container not found');
-      }
+      setIsBingo(true);
+      setWinningCardIndex(cardIndex); // Update winningCardIndex
     }
   };
-  
+
   return (
     <div className="wrapper">
-      <div className="bingo-container">
-        {/* This is where the Bingo message will be displayed */}
-      </div>
       {selectedCards.map((cardIndex) => (
         <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
-          <div className="bingo-card">
-            <p style={{textAlign: "center"}}>B      I      N      G     O</p>
+        <div className="bingo-card">
+  <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold', letterSpacing: '0.5em' }}>
+    <span style={{ color: 'black' }}>B</span>
+    <span style={{ color: 'black' }}>I</span>
+    <span style={{ color: 'black' }}>N</span>
+    <span style={{ color: 'black' }}>G</span>
+    <span style={{ color: 'black' }}>O</span>
+  </p>
+
+
+            
             <table className="tblBingo">
               <tbody>
                 {bingoCardsProp[cardIndex].map((row, rowIndex) => (
@@ -121,11 +101,24 @@ const BingoGamePage = () => {
                 ))}
               </tbody>
             </table>
+            <div className="bingo-container">
+  {isBingo && cardIndex === winningCardIndex && (
+    <p style={{ textAlign: "center", fontSize: "36px" }}>
+      <span style={{ color: "red" }}>B</span>
+      <span style={{ color: "orange" }}>I</span>
+      <span style={{ color: "blue" }}>N</span>
+      <span style={{ color: "orange" }}>G</span>
+      <span style={{ color: "purple" }}>O</span>
+    </p>
+  )}
+</div>
+
           </div>
         </div>
       ))}
     </div>
   );
+  
 };
 
 export default BingoGamePage;
