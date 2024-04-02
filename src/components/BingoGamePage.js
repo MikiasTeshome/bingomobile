@@ -6,12 +6,19 @@ import BingoCard from './BingoCard';
 
 const BingoGamePage = () => {
   const location = useLocation();
+  console.log('Location:', location); // Log location
   const bingoCardsProp = location.state.bingoCards;
   const selectedCards = location.state.selectedCards;
   const selectedCardName = location.state.selectedCardName;
+  console.log('Bingo Cards Prop:', bingoCardsProp); // Log bingo cards prop
+  console.log('Selected Cards:', selectedCards); // Log selected cards
+  console.log('Selected Card Name:', selectedCardName); // Log selected card name
   const [bingoCardsState, setBingoCards] = useState([]);
   const [isBingo, setIsBingo] = useState(false);
   const [winningCardIndex, setWinningCardIndex] = useState(null);
+  console.log('Bingo Cards State:', bingoCardsState); // Log bingo cards state
+  console.log('Is Bingo:', isBingo); // Log is bingo state
+  console.log('Winning Card Index:', winningCardIndex); // Log winning card index
 
   const winningPositions = [
     [0, 1, 2, 3, 4],
@@ -30,6 +37,7 @@ const BingoGamePage = () => {
 
   useEffect(() => {
     setBingoCards(bingoCardsProp.map(card => [...card]));
+    console.log('Setting Bingo Cards:', bingoCardsProp.map(card => [...card])); // Log setting bingo cards
   }, [selectedCards, bingoCardsProp]);
 
   useEffect(() => {
@@ -44,6 +52,7 @@ const BingoGamePage = () => {
         });
       };
     });
+    console.log('Adding event listeners'); // Log adding event listeners
   }, [selectedCards, bingoCardsProp]);
 
   const matchWin = (cardIndex) => {
@@ -66,17 +75,17 @@ const BingoGamePage = () => {
 
   const handleCellClick = (cardIndex, cell) => {
     cell.classList.add("strickout");
+    console.log('Cell Clicked:', cardIndex, cell); // Log cell clicked
     if (matchWin(cardIndex)) {
       setIsBingo(true);
       setWinningCardIndex(cardIndex);
+      console.log('Bingo!'); // Log bingo
     }
   };
 
   return (
     <div className="wrapper">
       {selectedCards.map((cardIndex, index) => (
-        // Check if the cardIndex matches one of the selected cards
-        (cardIndex === 6 || cardIndex === 3) && 
         <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
           <div className="bingo-card">
             <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
@@ -86,7 +95,7 @@ const BingoGamePage = () => {
               <span style={{ color: 'black' }}>G</span>
               <span style={{ color: 'black' }}>O</span>
             </p>
-           
+            
             <h2>{selectedCardName}</h2> {/* Display selected card name */}
             <table className="tblBingo">
               <tbody>
