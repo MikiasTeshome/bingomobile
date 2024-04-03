@@ -127,3 +127,10 @@ body:focus {
     padding: 10px 0; /* Add padding to the letter divs */
 }
 .p{text-align: center;}
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the cards horizontally */
+    min-height: 100vh; /* Maintain full viewport height */
+  }
+  
