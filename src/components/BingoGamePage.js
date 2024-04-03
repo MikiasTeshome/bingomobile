@@ -6,19 +6,12 @@ import BingoCard from './BingoCard';
 
 const BingoGamePage = () => {
   const location = useLocation();
-  console.log('Location:', location); // Log location
   const bingoCardsProp = location.state.bingoCards;
   const selectedCards = location.state.selectedCards;
   const selectedCardName = location.state.selectedCardName;
-  console.log('Bingo Cards Prop:', bingoCardsProp); // Log bingo cards prop
-  console.log('Selected Cards:', selectedCards); // Log selected cards
-  console.log('Selected Card Name:', selectedCardName); // Log selected card name
   const [bingoCardsState, setBingoCards] = useState([]);
   const [isBingo, setIsBingo] = useState(false);
   const [winningCardIndex, setWinningCardIndex] = useState(null);
-  console.log('Bingo Cards State:', bingoCardsState); // Log bingo cards state
-  console.log('Is Bingo:', isBingo); // Log is bingo state
-  console.log('Winning Card Index:', winningCardIndex); // Log winning card index
 
   const winningPositions = [
     [0, 1, 2, 3, 4],
@@ -37,7 +30,6 @@ const BingoGamePage = () => {
 
   useEffect(() => {
     setBingoCards(bingoCardsProp.map(card => [...card]));
-    console.log('Setting Bingo Cards:', bingoCardsProp.map(card => [...card])); // Log setting bingo cards
   }, [selectedCards, bingoCardsProp]);
 
   useEffect(() => {
@@ -52,7 +44,6 @@ const BingoGamePage = () => {
         });
       };
     });
-    console.log('Adding event listeners'); // Log adding event listeners
   }, [selectedCards, bingoCardsProp]);
 
   const matchWin = (cardIndex) => {
@@ -75,64 +66,67 @@ const BingoGamePage = () => {
 
   const handleCellClick = (cardIndex, cell) => {
     cell.classList.add("strickout");
-    console.log('Cell Clicked:', cardIndex, cell); // Log cell clicked
     if (matchWin(cardIndex)) {
       setIsBingo(true);
       setWinningCardIndex(cardIndex);
-      console.log('Bingo!'); // Log bingo
     }
   };
 
   return (
     <>
-    <div>
-    <h1 className="bingo-title"> <span>GO</span><span>o</span><span>D </span><span>LU</span><span>CK</span> </h1>
-    </div>
-    <div className="wrapper">
-     
-      {selectedCards.map((cardIndex, index) => (
-        
-        <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
-          <div className="bingo-card">
-            <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
-              <span style={{ color: 'black' }}>B</span>
-              <span style={{ color: 'black' }}>I</span>
-              <span style={{ color: 'black' }}>N</span>
-              <span style={{ color: 'black' }}>G</span>
-              <span style={{ color: 'black' }}>O</span>
-            </p>
-            
-            <h2>{selectedCardName}</h2> {/* Display selected card name */}
-            <table className="tblBingo">
-              <tbody>
-                {bingoCardsProp[cardIndex].map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((number, colIndex) => (
-                      <td key={colIndex} className="main-table-cell">
-                        <div className="cell-format">
-                          {number}
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="bingo-container">
-              {isBingo && cardIndex === winningCardIndex && (
-                <p style={{ textAlign: "center", fontSize: "36px" }}>
-                  <span style={{ color: "red" }}>B</span>
-                  <span style={{ color: "orange" }}>I</span>
-                  <span style={{ color: "blue" }}>N</span>
-                  <span style={{ color: "orange" }}>G</span>
-                  <span style={{ color: "purple" }}>O</span>
+      <div>
+        <h1 className="bingo-title" style={{textAlign: 'center'}}>
+          <span>GO</span><span>o</span><span>D </span><span>LU</span><span>CK</span>
+        </h1>
+      </div>
+      <div className="wrapper" style={{ 
+        background: 'rgb(2,0,36)',
+        background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)', 
+        minHeight: '100vh' 
+      }}>
+        <div className="wrapper">
+          {selectedCards.map((cardIndex, index) => (
+            <div key={cardIndex} className={`container bingo-card-${cardIndex}`}>
+              <div className="bingo-card">
+                <p style={{ textAlign: "center", fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
+                  <span style={{ color: 'black' }}>B</span>
+                  <span style={{ color: 'black' }}>I</span>
+                  <span style={{ color: 'black' }}>N</span>
+                  <span style={{ color: 'black' }}>G</span>
+                  <span style={{ color: 'black' }}>O</span>
                 </p>
-              )}
+                <p style={{ textAlign: "center" }}>Cartela Number {cardIndex + 1}</p> {/* Display selected card number */}
+                <table className="tblBingo">
+                  <tbody>
+                    {bingoCardsProp[cardIndex].map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {row.map((number, colIndex) => (
+                          <td key={colIndex} className="main-table-cell">
+                            <div className="cell-format">
+                              {number}
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="bingo-container">
+                  {isBingo && cardIndex === winningCardIndex && (
+                    <p style={{ textAlign: "center", fontSize: "36px" }}>
+                      <span style={{ color: "red" }}>B</span>
+                      <span style={{ color: "orange" }}>I</span>
+                      <span style={{ color: "blue" }}>N</span>
+                      <span style={{ color: "orange" }}>G</span>
+                      <span style={{ color: "purple" }}>O</span>
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
     </>
   );
 };
