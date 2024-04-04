@@ -56,7 +56,7 @@
   /* Decrease the size of individual cards for mobile devices */
   .bingo-card{
     
-    margin: 3px;
+    margin: 6px;
   padding: 4px;
   margin-bottom: 6px;
   padding-bottom: 6px;; /* Adjust as needed */  
